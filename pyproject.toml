@@ -3,13 +3,13 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "scatter-analysis"
+name = "ScatTools"
 version = "0.0.1"
 description = "Tools for X-ray and neutron scattering analysis"
 readme = "README.md"
 requires-python = ">=3.8"
 authors = [
-    { name = "Author" },
+    { name = "Egor A. Bersenev" },
 ]
 dependencies = [
     "numpy",
@@ -23,7 +23,7 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/user/scatter-analysis"
+Homepage = "https://github.com/chelberserker/ScatTools/"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/gid", "src/sas"]
