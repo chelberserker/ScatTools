@@ -1,8 +1,9 @@
-import numpy as np
-import matplotlib.pyplot as plt
 import h5py
+import matplotlib.pyplot as plt
+import numpy as np
 
-class D11_SANS():
+
+class D11_SANS:
 
     def __init__(self, filename, data=True):
         self.q = np.array([])
@@ -35,13 +36,10 @@ class D11_SANS():
 
     def plot(self, ax=None, bckg=0.0, label=None):
         if not ax:
-            fig, ax = plt.subplots(1, 1)
-        else:
-            pass
+            _fig, ax = plt.subplots(1, 1)
+
         if not label:
             label = self.sample_name
-        else:
-            label = label
 
         if isinstance(bckg, float):
             ax.errorbar(self.q, self.I - bckg, yerr=self.I_err, label=label, fmt='.', capsize=3, alpha=0.25)
@@ -53,7 +51,7 @@ class D11_SANS():
         ax.legend()
 
 
-class ID02_SAXS():
+class ID02_SAXS:
     def __init__(self, filename, data=True, sample_thickness=0.2):
         self.q = np.array([])
         self.I = np.array([])
@@ -85,13 +83,10 @@ class ID02_SAXS():
 
     def plot(self, ax=None, norm_factor=1, label=None):
         if not ax:
-            fig, ax = plt.subplots(1, 1)
-        else:
-            pass
+            _fig, ax = plt.subplots(1, 1)
+
         if not label:
             label = self.sample_name
-        else:
-            label = label
 
         ax.errorbar(self.q, self.I / norm_factor, self.I_err / norm_factor, fmt='o', capsize=2, linewidth=1,
                     markersize=1, label=label)

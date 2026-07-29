@@ -1,6 +1,7 @@
-import math
-import numpy as np
 import logging
+import math
+
+import numpy as np
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)
