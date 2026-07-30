@@ -5,7 +5,7 @@ A Python package providing tools for the analysis of X-ray and neutron scatterin
 ## Installation
 
 ```bash
-pip install scatter-analysis
+pip install ScatTools
 ```
 
 ## Features
@@ -15,7 +15,7 @@ pip install scatter-analysis
 
 ## Documentation
 
-Documentation is available at [scatter-analysis docs](https://github.com/user/scatter-analysis)
+Documentation will be made available shortly.
 
 ## Usage Example
 
