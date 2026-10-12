@@ -2,6 +2,17 @@ import h5py
 import matplotlib.pyplot as plt
 import numpy as np
 
+
+def get_data_line(f, phrase='***** Data *****'):
+    for (i, line) in enumerate(f):
+        if phrase in line:
+            if phrase is '***** Data *****':
+                return i + 3
+        else:
+            return i+1
+    return None
+
+
 class D11_SANS:
 
     def __init__(self, filename, data=True, stitched=False):
@@ -58,15 +69,6 @@ class D11_SANS:
         ax.set_ylabel('$\\mathrm{\\Delta}\\Sigma / \\mathrm{\\Delta}\\Omega, \\mathrm{cm}^{-1}$')
         ax.loglog()
         ax.legend()
-
-    def get_data_line(f, phrase='***** Data *****'):
-        for (i, line) in enumerate(f):
-            if phrase in line:
-                if phrase is '***** Data *****':
-                    return i+2
-            else:
-                return i
-        return None
 
 
 class ID02_SAXS:
