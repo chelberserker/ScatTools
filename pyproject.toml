@@ -4,7 +4,6 @@ build-backend = "hatchling.build"
 
 [project]
 name = "ScatTools"
-version = "0.0.2"
 description = "Tools for X-ray and neutron scattering analysis"
 readme = "README.md"
 requires-python = ">=3.8"
