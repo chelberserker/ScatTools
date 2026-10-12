@@ -8,10 +8,10 @@ source = "vcs"
 
 [project]
 name = "ScatTools"
+dynamic = ["version"]
 description = "Tools for X-ray and neutron scattering analysis"
 readme = "README.md"
 requires-python = ">=3.8"
-dynamic = ["version"]
 authors = [
   { name="Egor A. Bersenev", email="egor.bersenev@esrf.fr" },
 ]
