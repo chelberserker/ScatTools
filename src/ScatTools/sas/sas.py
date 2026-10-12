@@ -7,7 +7,6 @@ def get_data_line(filename, phrase='***** Data *****'):
     with open(filename, 'r') as f:
         for (i, line) in enumerate(f):
             if phrase in line:
-                print(i)
                 if phrase == 'Mod_Q	I	Err_I	Sigma_Q':
                     return i + 2
                 else:
