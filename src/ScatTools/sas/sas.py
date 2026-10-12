@@ -3,14 +3,16 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def get_data_line(f, phrase='***** Data *****'):
-    for (i, line) in enumerate(f):
-        if phrase in line:
-            if phrase is '***** Data *****':
-                return i + 3
-        else:
-            return i+1
-    return None
+def get_data_line(filename, phrase='***** Data *****'):
+    with open(filename, 'r') as f:
+        for (i, line) in enumerate(f):
+            if phrase in line:
+                print(i)
+                if phrase == 'Mod_Q	I	Err_I	Sigma_Q':
+                    return i + 2
+                else:
+                    return i+1
+        return None
 
 
 class D11_SANS:
@@ -39,7 +41,7 @@ class D11_SANS:
         return self.sample_name
 
     def load_data(self, filename):
-        data_line = self.get_data_line(filename)
+        data_line = get_data_line(filename, self.data_line)
         with open(filename, 'r') as f:
             a = f.read()
             try:
