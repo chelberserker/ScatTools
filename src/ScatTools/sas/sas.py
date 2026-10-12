@@ -2,10 +2,9 @@ import h5py
 import matplotlib.pyplot as plt
 import numpy as np
 
-
 class D11_SANS:
 
-    def __init__(self, filename, data=True):
+    def __init__(self, filename, data=True, stitched=False):
         self.q = np.array([])
         self.I = np.array([])
         self.I_err = np.array([])
@@ -13,6 +12,10 @@ class D11_SANS:
         self.q_fit = np.array([])
         self.I_fit = np.array([])
         self.sample_name = ''
+        if stitched:
+            self.data_line ='q	I_stitched	err_stitched	sigma_q'
+        else:
+            self.data_line ='Mod_Q	I	Err_I	Sigma_Q'
         if data:
             self.load_data(filename)
         else:
@@ -25,16 +28,22 @@ class D11_SANS:
         return self.sample_name
 
     def load_data(self, filename):
+        data_line = self.get_data_line(filename)
         with open(filename, 'r') as f:
             a = f.read()
-            self.sample_name = a.split('Subtitle:')[1].split('\n')[0].replace(' ', '')
-            data = np.loadtxt(filename, skiprows=53).T
+            try:
+                self.sample_name = a.split('Subtitle:')[1].split('\n')[0].replace(' ', '')
+            except IndexError:
+                self.sample_name = a.split('Stitched Data:')[1].split('\n')[0].replace(' ', '')
+                # Stitched Data: PEG_PNIPAM_6_0p3125_50C
+
+            data = np.loadtxt(filename, skiprows=data_line).T
             self.q = data[0] * 10
             self.I = data[1]
             self.I_err = data[2]
             self.q_err = data[3] * 10
 
-    def plot(self, ax=None, bckg=0.0, label=None):
+    def plot(self, ax=None, bckg=0.0, const=0.0, label=None):
         if not ax:
             _fig, ax = plt.subplots(1, 1)
 
@@ -42,13 +51,22 @@ class D11_SANS:
             label = self.sample_name
 
         if isinstance(bckg, float):
-            ax.errorbar(self.q, self.I - bckg, yerr=self.I_err, label=label, fmt='.', capsize=3, alpha=0.25)
+            ax.errorbar(self.q, self.I - bckg-const, yerr=self.I_err, label=label, fmt='.', capsize=3, alpha=0.25)
         else:
-            ax.errorbar(self.q, self.I - bckg.I, yerr=self.I_err, label=label, fmt='.', capsize=3, alpha=0.25)
+            ax.errorbar(self.q, self.I - bckg.I-const, yerr=self.I_err, label=label, fmt='.', capsize=3, alpha=0.25)
         ax.set_xlabel('$q, \\mathrm{nm}^{-1}$')
         ax.set_ylabel('$\\mathrm{\\Delta}\\Sigma / \\mathrm{\\Delta}\\Omega, \\mathrm{cm}^{-1}$')
         ax.loglog()
         ax.legend()
+
+    def get_data_line(f, phrase='***** Data *****'):
+        for (i, line) in enumerate(f):
+            if phrase in line:
+                if phrase is '***** Data *****':
+                    return i+2
+            else:
+                return i
+        return None
 
 
 class ID02_SAXS:
@@ -59,7 +77,7 @@ class ID02_SAXS:
         self.q_fit = np.array([])
         self.I_fit = np.array([])
         self.sample_name = ''
-        self.sample_thickness = sample_thickness   # for 2 mm capillary to convert into 1/cm
+        self.sample_thickness = sample_thickness   #in cm, 0.2 for 2 mm capillary to convert into 1/cm
         if data:
             self.load_data(filename)
         else:
