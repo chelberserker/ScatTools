@@ -2,16 +2,6 @@ import h5py
 import matplotlib.pyplot as plt
 import numpy as np
 
-
-def get_data_line(f, phrase='***** Data *****'):
-    for (i, line) in enumerate(f):
-        if phrase in line:
-            if phrase is '***** Data *****':
-                return i + 3
-        else:
-            return i+1
-    return None
-
 class D11_SANS:
 
     def __init__(self, filename, data=True, stitched=False):
@@ -38,7 +28,7 @@ class D11_SANS:
         return self.sample_name
 
     def load_data(self, filename):
-        data_line = get_data_line(filename)
+        data_line = self.get_data_line(filename)
         with open(filename, 'r') as f:
             a = f.read()
             try:
@@ -69,8 +59,14 @@ class D11_SANS:
         ax.loglog()
         ax.legend()
 
-    def load_fit(self, filename):
-        pass
+    def get_data_line(f, phrase='***** Data *****'):
+        for (i, line) in enumerate(f):
+            if phrase in line:
+                if phrase is '***** Data *****':
+                    return i+2
+            else:
+                return i
+        return None
 
 
 class ID02_SAXS:
