@@ -2,7 +2,6 @@ import h5py
 import matplotlib.pyplot as plt
 import numpy as np
 
-
 def get_data_line(filename, phrase='***** Data *****'):
     with open(filename, 'r') as f:
         for (i, line) in enumerate(f):
@@ -44,6 +43,7 @@ class D11_SANS:
         with open(filename, 'r') as f:
             a = f.read()
             try:
+                self.time = a.split('Start:')[1].split('End')[0]
                 self.sample_name = a.split('Subtitle:')[1].split('\n')[0].replace(' ', '')
             except IndexError:
                 self.sample_name = a.split('Stitched Data:')[1].split('\n')[0].replace(' ', '')
@@ -80,7 +80,7 @@ class ID02_SAXS:
         self.q_fit = np.array([])
         self.I_fit = np.array([])
         self.sample_name = ''
-        self.sample_thickness = sample_thickness   #in cm, 0.2 for 2 mm capillary to convert into 1/cm
+        self.sample_thickness = sample_thickness   # for 2 mm capillary to convert into 1/cm
         if data:
             self.load_data(filename)
         else:
